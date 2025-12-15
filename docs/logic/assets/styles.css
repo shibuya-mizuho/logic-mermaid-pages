@@ -1,0 +1,162 @@
+.sidebar {
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.package-group {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 1rem;
+}
+
+.package-title {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+
+.function-item {
+    padding: 0.5rem;
+    margin: 0.25rem 0;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.function-item:hover {
+    background-color: #e9ecef;
+}
+
+.function-item.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.function-item.active .function-comment {
+    color: #cce7ff !important;
+}
+
+.function-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.function-comment {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.main-content {
+    padding: 0 1rem;
+}
+
+.mermaid-wrapper {
+    overflow: auto;
+    max-height: 600px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.mermaid-wrapper svg {
+    display: block;
+    margin: 0 auto;
+    max-width: none;
+    height: auto;
+}
+
+.mermaid {
+    text-align: center;
+    min-height: 200px;
+}
+
+.call-relationships .card {
+    margin-bottom: 1rem;
+}
+
+.call-relationships ul {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.call-relationships a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.call-relationships a:hover {
+    text-decoration: underline;
+}
+
+.welcome-message {
+    margin-top: 3rem;
+}
+
+.search-box input {
+    font-size: 0.9rem;
+}
+
+/* Mermaidスタイルのカスタマイズ */
+.mermaid .node rect {
+    fill: #f8f9fa;
+    stroke: #007bff;
+    stroke-width: 2px;
+}
+
+.mermaid .node .label {
+    color: #495057;
+    font-family: 'Yu Gothic UI',sans-serif;
+}
+
+.mermaid .edgePath .path {
+    stroke: #6c757d;
+    stroke-width: 2px;
+}
+
+.mermaid .edgeLabel {
+    font-size: 14px;
+    width: 80vh; !important;
+    text-align: center;
+}
+
+.mermaid .edgeLabel .label {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #007bff !important;
+    fill: #007bff !important;
+}
+
+.mermaid .edgeLabel foreignObject {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #007bff !important;
+}
+
+.mermaid .edgeLabel span {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #007bff !important;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .sidebar {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .main-content {
+        padding: 1rem 0.5rem;
+    }
+    
+    .mermaid-wrapper {
+        max-height: 400px;
+    }
+}

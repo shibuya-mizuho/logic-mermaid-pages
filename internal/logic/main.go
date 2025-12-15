@@ -10,7 +10,7 @@ import (
 func main() {
 	config := &Config{
 		TargetFiles: []string{
-			"application/usecase/main.go",
+			"application/usecase/*.go",
 			"application/service/*.go",
 			"application/validator/*.go",
 			"interface/schema/*.go",
