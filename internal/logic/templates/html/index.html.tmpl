@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV API ビジネスロジック</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/styles.css?v={{.Version}}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row h-100">
+            <!-- サイドバー：関数一覧 -->
+            <div class="col-md-3 sidebar">
+                <div class="sticky-top">
+                    <a href="../index.html" class="list-group-item list-group-item-action" style="margin: 16px;">
+                        🏠 ドキュメントホームに戻る
+                    </a>
+                    <h5 class="mt-3 mb-3">関数一覧</h5>
+                    <div class="search-box mb-3">
+                        <input type="text" class="form-control" id="function-search" placeholder="関数を検索...">
+                    </div>
+                    <div class="function-list" id="function-list">
+                        <!-- 動的生成される関数リスト -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- メインエリア：Mermaid表示 -->
+            <div class="col-md-9 main-content">
+                <!-- パンくずナビゲーション -->
+                <nav aria-label="breadcrumb" class="mt-3">
+                    <ol class="breadcrumb" id="breadcrumb">
+                        <li class="breadcrumb-item active">関数を選択してください</li>
+                    </ol>
+                </nav>
+                
+                <!-- 関数情報 -->
+                <div class="function-info mb-4" id="function-info" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 id="function-title" class="mb-0"></h3>
+                        </div>
+                        <div class="card-body">
+                            <p id="function-description" class="text-muted"></p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>パッケージ:</strong> <span id="function-package"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>ファイル:</strong> <span id="function-file"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mermaid図表示エリア -->
+                <div class="mermaid-container mb-4" id="mermaid-container" style="display: none;">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">フローチャート</h5>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="zoomIn()">拡大</button>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="zoomOut()">縮小</button>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="resetZoom()">リセット</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="mermaid-wrapper">
+                                <div class="mermaid" id="mermaid-diagram">
+                                    <!-- Mermaid図がここに表示される -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 呼び出し関係 -->
+                <div class="call-relationships" id="call-relationships" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">この関数を呼び出している関数</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul id="callers-list" class="list-unstyled">
+                                        <!-- 動的生成 -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">この関数が呼び出している関数</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul id="callees-list" class="list-unstyled">
+                                        <!-- 動的生成 -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 初期表示メッセージ -->
+                <div class="welcome-message text-center" id="welcome-message">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h4>CV API ビジネスロジック ドキュメント</h4>
+                            <p class="text-muted">左側の関数一覧から関数を選択すると、詳細なフローチャートが表示されます。</p>
+                            <p class="text-muted">フローチャート内の呼び出し関数ノードをクリックすると、呼び出し関数の処理を確認することができます。</p>
+                            <p class="text-muted">BackSpace で元の関数に戻ることができます。</p>
+                            <p class="text-muted">生成された関数数: <strong>{{.FunctionCount}}</strong></p>
+                            <p class="text-muted">メイン関数: <strong><a href="#" onclick="showMainFunction(); return false;" style="color: #007bff; text-decoration: none;">cvUseCase.MakeConversion</a></strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end mt-4">
+                    <small class="text-muted">最終更新: {{.GeneratedAt}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast通知用コンテナ -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="notification-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toast-title">通知</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toast-message">
+                <!-- メッセージがここに表示される -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/mermaid-init.js?v={{.Version}}"></script>
+    <script src="assets/functions.js?v={{.Version}}"></script>
+    <script src="assets/navigator.js?v={{.Version}}"></script>
+</body>
+</html>
