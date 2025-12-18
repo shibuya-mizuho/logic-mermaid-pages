@@ -18,7 +18,7 @@ func main() {
 		ExcludePatterns: []string{
 			"*_test.go",
 		},
-		OutputDir: "docs/logic",
+		OutputDir: "docs",
 		Verbose:   true,
 	}
 
