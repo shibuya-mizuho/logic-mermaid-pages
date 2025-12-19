@@ -13,3 +13,13 @@ https://shibuya-mizuho.github.io/logic-mermaid-pages/
 `go:generate` は [application/usecase/order_create.go](application/usecase/order_create.go#L1) で定義しています。
 
 [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) によって、mainブランチへのPush時に自動実行され、生成されたドキュメントはGitHub Pagesでホスティングされます。
+
+## LICENSE
+
+MIT License
+
+## 注意事項
+
+あくまでもデモプロジェクトですので、無保証、無サポートです。ご了承ください。
+
+上記のコードを利用したことによるいかなる損害についても、著者は一切の責任を負いません。
